@@ -43,7 +43,7 @@ export default function RatgeberPage() {
         data={itemListSchema({
           name: "PMSLogic Ratgeberartikel",
           description:
-            "Ratgeberartikel zu Hotelsoftware, Hotel PMS, Reservierung, Channel Manager, Booking Engine und Housekeeping.",
+            "Ratgeberartikel zu Hotelsoftware, Hotel PMS, PMS Software, Software für Hotels, Hotel Management Software, Property Management System, Hotelverwaltungssoftware, digitaler Hotelverwaltung, Belegungsplan, Reservierung, Demo, kostenlose Tests, Deutschland, Channel Manager, Booking Engine, Housekeeping, Gästeverwaltung, Rechnungen, Cloud PMS, kleine Hotels, Pensionen, Ferienwohnungen, Meldeschein, Revenue Management, Checklisten, KI, Channel-Manager-Integrationen und Automatisierung.",
           items: blogPosts.map((post) => ({
             name: post.title,
             path: `/ratgeber/${post.slug}`,
@@ -71,9 +71,17 @@ export default function RatgeberPage() {
               <p>
                 Die Beiträge decken Grundlagen, Softwareauswahl,
                 Reservierungssoftware, Channel Manager, Booking Engine und
-                Housekeeping ab. Die Struktur ist vorbereitet, um weitere
-                Fachbeiträge zu Rechnungen, Meldeschein, Revenue oder
-                Automatisierung zu ergänzen.
+                Housekeeping ab. Ergänzend erklären sie Meldeschein-Prozesse,
+                Gästeverwaltung, Rechnungssoftware, Cloud PMS, Property
+                Management Systeme, Hotelverwaltungssoftware, Belegungsplan,
+                Hotel Management Software, PMS Software, Ferienwohnungen,
+                kleine Hotels, Pensionen, Software für Hotels, Revenue
+                Management, Hotelsoftware-Demos, kostenlose Tests, Hotel PMS in
+                Deutschland, digitale Hotelverwaltung, KI Hotelsoftware,
+                Channel Manager, Rechnungsprozesse, Housekeeping-Checklisten,
+                Cloud-PMS-Auswahl, Booking Engine, PMS-Einführung,
+                Datenübernahme, Hotelsoftware-Vergleich, PMS-Kosten,
+                Cloud-PMS-Sicherheit und praktische Channel-Manager-Checks.
               </p>
             </div>
           </div>

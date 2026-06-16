@@ -35,6 +35,42 @@ Ziel: organische Demo-Anfragen für PMSLogic über Suchanfragen rund um Hotelsof
 - Reservierung und Belegung: `/ratgeber/reservierungssoftware-hotel-belegungsplan`
 - Online-Vertrieb: `/ratgeber/channel-manager-booking-engine-hotel`
 - Housekeeping und Betrieb: `/ratgeber/housekeeping-software-hotel-zimmerstatus`
+- Meldeschein und Dokumente: `/ratgeber/meldeschein-software-hotel`
+- Revenue und Reporting: `/ratgeber/revenue-management-hotel-pms`
+- Automatisierung und KI: `/ratgeber/hotel-automatisierung-ki-pms`
+- Gästeverwaltung: `/ratgeber/gaesteverwaltung-hotel-pms`
+- Rechnungen und Zahlungen: `/ratgeber/rechnungssoftware-hotel`
+- Cloud PMS: `/ratgeber/cloud-pms-hotel`
+- Property Management System: `/ratgeber/property-management-system-hotel`
+- Hotelverwaltungssoftware: `/ratgeber/hotelverwaltungssoftware`
+- Belegungsplan Software: `/ratgeber/belegungsplan-software-hotel`
+- Hotel Management Software: `/ratgeber/hotel-management-software`
+- PMS Software Hotel: `/ratgeber/pms-software-hotel`
+- Hotelsoftware für Ferienwohnungen: `/ratgeber/hotelsoftware-ferienwohnungen`
+- Hotelsoftware für kleine Hotels: `/ratgeber/hotelsoftware-kleine-hotels`
+- Hotelsoftware für Pensionen: `/ratgeber/hotelsoftware-pensionen`
+- Software für Hotels: `/ratgeber/software-fuer-hotels`
+- Hotelsoftware Demo: `/ratgeber/hotelsoftware-demo`
+- Hotelsoftware kostenlos testen: `/ratgeber/hotelsoftware-kostenlos-testen`
+- Hotel PMS Deutschland: `/ratgeber/hotel-pms-deutschland`
+- Hotel Verwaltungssoftware: `/ratgeber/hotel-verwaltungssoftware`
+- Digitale Hotelverwaltung: `/ratgeber/digitale-hotelverwaltung`
+- Hotelsoftware mit KI: `/ratgeber/hotelsoftware-mit-ki`
+- KI Hotelsoftware: `/ratgeber/ki-hotelsoftware`
+- Hotelsoftware mit Channel Manager: `/ratgeber/hotelsoftware-mit-channel-manager`
+- Hotelsoftware mit Rechnung: `/ratgeber/hotelsoftware-mit-rechnung`
+- Meldeschein Software Checkliste: `/ratgeber/meldeschein-software-checkliste`
+- Gästeverwaltung Checkliste: `/ratgeber/gaesteverwaltung-hotel-checkliste`
+- Revenue Management Checkliste: `/ratgeber/revenue-management-hotel-checkliste`
+- Housekeeping Software Checkliste: `/ratgeber/housekeeping-software-checkliste`
+- Cloud PMS Checkliste: `/ratgeber/cloud-pms-checkliste`
+- Channel Manager Checkliste: `/ratgeber/channel-manager-checkliste`
+- Booking Engine Checkliste: `/ratgeber/booking-engine-checkliste`
+- PMS Einführung Hotel: `/ratgeber/pms-einfuehrung-hotel`
+- Hotelsoftware Datenübernahme: `/ratgeber/hotelsoftware-datenuebernahme`
+- Hotelsoftware Vergleich: `/ratgeber/hotelsoftware-vergleich`
+- PMS Kosten Hotel: `/ratgeber/pms-kosten-hotel`
+- Cloud PMS Sicherheit: `/ratgeber/cloud-pms-sicherheit`
 
 ## Seitenstrategie
 
@@ -65,9 +101,9 @@ Ziel: organische Demo-Anfragen für PMSLogic über Suchanfragen rund um Hotelsof
 
 ## Nächste Content-Chancen
 
-- Meldeschein Software Hotel: `/ratgeber/meldeschein-software-hotel`
-- Revenue Management Hotel: `/ratgeber/revenue-management-hotel-pms`
-- Hotel Automatisierung: `/ratgeber/hotel-automatisierung-ki-pms`
+- Hotelsoftware Lastenheft: `/ratgeber/hotelsoftware-lastenheft`
+- PMS Anbieter Fragen: `/ratgeber/pms-anbieter-fragen`
+- Hotelsoftware Module: `/ratgeber/hotelsoftware-module`
 
 ## Regel
 
