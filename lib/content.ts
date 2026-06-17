@@ -1312,7 +1312,311 @@ export type BlogPost = {
   faq: FaqItem[];
 };
 
-export const blogPosts: BlogPost[] = [
+type BlogSection = BlogPost["sections"][number];
+
+function readableBlogTopic(post: BlogPost) {
+  const baseTitle = post.title.split(":")[0]?.trim() || post.title;
+
+  return baseTitle
+    .replace(/\?$/, "")
+    .replace(/^Was ist ein(?:e|)\s+/i, "")
+    .replace(/^Was ist\s+/i, "")
+    .replace(/^Warum\s+/i, "")
+    .replace(/^Wie\s+/i, "")
+    .replace(/^So\s+/i, "")
+    .trim();
+}
+
+function primaryBlogKeyword(post: BlogPost) {
+  const haystack = [
+    post.slug,
+    post.title,
+    post.metaTitle,
+    post.metaDescription,
+    post.excerpt,
+    post.intro
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  return (
+    seoKeywords
+      .filter((keyword) => haystack.includes(keyword.toLowerCase()))
+      .sort((a, b) => b.length - a.length)[0] || readableBlogTopic(post)
+  );
+}
+
+function sourceSectionSummary(post: BlogPost) {
+  const titles = post.sections.map((section) => section.title).slice(0, 4);
+
+  if (titles.length === 0) {
+    return "Reservierung, Gästeverwaltung, Zimmerstatus und Abrechnung";
+  }
+
+  if (titles.length === 1) {
+    return titles[0];
+  }
+
+  return `${titles.slice(0, -1).join(", ")} und ${titles[titles.length - 1]}`;
+}
+
+function audienceNote(post: BlogPost) {
+  const slug = post.slug;
+
+  if (slug.includes("pension")) {
+    return "Für Pensionen ist wichtig, dass die Software persönliche Abläufe nicht verkompliziert, sondern wiederkehrende Aufgaben leise im Hintergrund ordnet.";
+  }
+
+  if (slug.includes("boutique")) {
+    return "Boutique-Hotels brauchen eine Lösung, die individuelle Gästebetreuung ermöglicht und trotzdem klare operative Standards schafft.";
+  }
+
+  if (slug.includes("aparthotel")) {
+    return "Aparthotels profitieren besonders von strukturierten Aufenthaltsdaten, weil Longstay, Zusatzleistungen, Reinigung und Abrechnung oft enger miteinander verbunden sind.";
+  }
+
+  if (slug.includes("ferien")) {
+    return "Bei Ferienunterkünften und Ferienwohnungen zählt vor allem, dass mehrere Einheiten, Anreisen, Aufgaben und Buchungskanäle ohne manuelle Listen zusammenlaufen.";
+  }
+
+  if (slug.includes("hotelgruppen")) {
+    return "Hotelgruppen benötigen neben sauberer Standortarbeit auch vergleichbare Daten, Rollen und Reports über mehrere Häuser hinweg.";
+  }
+
+  if (slug.includes("hotelanlagen")) {
+    return "Hotelanlagen und Resorts brauchen stabile Prozesse, weil Zimmer, Zusatzbereiche, Teams, Gästewünsche und interne Übergaben gleichzeitig gesteuert werden.";
+  }
+
+  if (slug.includes("kleine-hotels")) {
+    return "Kleine Hotels benötigen schlanke Prozesse, weil wenige Personen viele Aufgaben übernehmen und Software nicht zusätzliche Verwaltungsarbeit erzeugen darf.";
+  }
+
+  return "Für Hotels jeder Größe ist entscheidend, dass die Software den Alltag vereinfacht und nicht nur eine weitere Oberfläche im ohnehin vollen Tagesgeschäft wird.";
+}
+
+function operationalFocus(post: BlogPost, topic: string) {
+  const slug = post.slug;
+
+  if (slug.includes("housekeeping") || slug.includes("zimmerstatus")) {
+    return `${topic} wirkt direkt auf Zimmerfreigaben, Reinigungslisten, Prioritäten und Rückfragen zwischen Rezeption und Etage. Wenn diese Informationen verspätet oder doppelt gepflegt werden, entstehen Wartezeiten, unnötige Wege und Unsicherheit im Team.`;
+  }
+
+  if (slug.includes("rechnung") || slug.includes("zahlung") || slug.includes("kosten")) {
+    return `${topic} betrifft nicht nur Preise oder Rechnungen, sondern auch Nachvollziehbarkeit, Zahlungsstatus, Zusatzleistungen und die Frage, wer im Team welche Informationen prüfen darf. Gerade bei wiederkehrenden Vorgängen entsteht viel Entlastung, wenn Daten sauber aus dem PMS heraus vorbereitet werden.`;
+  }
+
+  if (slug.includes("meldeschein") || slug.includes("gaeste")) {
+    return `${topic} beginnt bei korrekten Gästedaten und endet bei verlässlichen Profilen, Dokumenten, Wünschen und Aufenthaltsinformationen. Je sauberer diese Daten gepflegt sind, desto besser können Teams kommunizieren, abrechnen und den nächsten Aufenthalt vorbereiten.`;
+  }
+
+  if (slug.includes("channel") || slug.includes("booking-engine")) {
+    return `${topic} entscheidet darüber, wie zuverlässig Verfügbarkeit, Preise und Buchungen zwischen PMS, Portalen und Direktbuchung laufen. Ohne klare Verbindung entstehen Übertragungsfehler, manuelle Kontrollen und vermeidbare Rückfragen.`;
+  }
+
+  if (slug.includes("revenue") || slug.includes("reporting")) {
+    return `${topic} ist nur dann wertvoll, wenn die zugrunde liegenden PMS-Daten stimmen. Auslastung, Umsatz, Aufenthaltsdauer, Stornos und Zusatzleistungen müssen nachvollziehbar zusammenkommen, bevor daraus sinnvolle Entscheidungen entstehen.`;
+  }
+
+  if (slug.includes("ki") || slug.includes("automatisierung")) {
+    return `${topic} entfaltet Nutzen, wenn wiederkehrende Aufgaben klar beschrieben sind. Künstliche Intelligenz und Automatisierung ersetzen keine sauberen Prozesse, sie verstärken sie und helfen dem Team, schneller auf die richtigen Informationen zuzugreifen.`;
+  }
+
+  if (slug.includes("cloud") || slug.includes("sicherheit")) {
+    return `${topic} wirkt auf Zugriff, Rollen, Support, Datenpflege und Zusammenarbeit im Team. Der Vorteil einer webbasierten Lösung entsteht vor allem dann, wenn Informationen standortunabhängig verfügbar sind und trotzdem kontrolliert genutzt werden.`;
+  }
+
+  return `${topic} wirkt in Reservierung, Frontdesk, Housekeeping, Gästeverwaltung, Abrechnung und Reporting hinein. Der Nutzen zeigt sich besonders dann, wenn Informationen nicht mehrfach gepflegt werden müssen und Teams schneller erkennen, was als Nächstes ansteht.`;
+}
+
+function decisionFocus(post: BlogPost) {
+  const slug = post.slug;
+
+  if (slug.includes("checkliste") || slug.includes("vergleich") || slug.includes("auswaehl")) {
+    return "Bei der Bewertung sollten Hotels nicht nur Funktionslisten vergleichen, sondern konkrete Arbeitsabläufe durchspielen: neue Reservierung, Änderung, Check-in, Housekeeping-Übergabe, Rechnung, Auswertung und Supportfall.";
+  }
+
+  if (slug.includes("demo") || slug.includes("testen")) {
+    return "Eine Demo ist besonders wertvoll, wenn sie mit echten Beispielen aus dem Betrieb vorbereitet wird. Statt nur Oberflächen anzusehen, sollte das Team prüfen, ob typische Tagesabläufe verständlich, schnell und vollständig abgebildet werden.";
+  }
+
+  if (slug.includes("datenuebernahme") || slug.includes("einfuehrung")) {
+    return "Vor einer Einführung sollten Stammdaten, Zimmer, Kategorien, Leistungen, Benutzerrollen und laufende Reservierungen geprüft werden. Je klarer diese Basis vorbereitet ist, desto ruhiger verläuft der Wechsel.";
+  }
+
+  if (slug.includes("kosten")) {
+    return "Bei PMS-Kosten zählt die Gesamtbetrachtung: Lizenz, Einrichtung, Schulung, Support, Schnittstellen, Zahlungsprozesse, Zeitersparnis und die Frage, welche manuellen Arbeitsschritte entfallen.";
+  }
+
+  return "Für die Auswahl ist entscheidend, ob die Lösung zum tatsächlichen Betrieb passt. Hotels sollten prüfen, welche Prozesse heute Zeit kosten, wo Informationen fehlen und welche Funktionen im Alltag regelmäßig genutzt werden.";
+}
+
+function riskFocus(post: BlogPost) {
+  const slug = post.slug;
+
+  if (slug.includes("sicherheit")) {
+    return "Ein häufiger Fehler ist, Sicherheit nur technisch zu betrachten. Rollen, Passwörter, Zugriffsrechte, Datenpflege, Schulung und interne Verantwortlichkeiten sind genauso wichtig wie Hosting und Verschlüsselung.";
+  }
+
+  if (slug.includes("meldeschein")) {
+    return "Ein häufiger Fehler ist, Meldeschein-Prozesse isoliert zu betrachten. Hotels sollten immer prüfen, wie Gästedaten erhoben, geprüft, gespeichert und im PMS weiterverarbeitet werden; rechtliche Anforderungen müssen zusätzlich betriebsindividuell geprüft werden.";
+  }
+
+  if (slug.includes("channel") || slug.includes("booking-engine")) {
+    return "Ein häufiger Fehler ist, Vertriebskanäle nur nach Reichweite zu bewerten. Entscheidend ist, ob Verfügbarkeiten, Raten, Stornierungen und Buchungsdetails zuverlässig im PMS ankommen.";
+  }
+
+  if (slug.includes("ki") || slug.includes("automatisierung")) {
+    return "Ein häufiger Fehler ist, KI als Ersatz für Prozessklarheit zu sehen. Automatisierungen sollten gezielt dort eingesetzt werden, wo Regeln, Verantwortlichkeiten und Datenquellen bereits sauber definiert sind.";
+  }
+
+  return "Ein häufiger Fehler ist, Software nur aus Sicht einer einzelnen Abteilung zu bewerten. Ein PMS berührt viele Rollen, deshalb sollten Rezeption, Verwaltung, Housekeeping, Management und gegebenenfalls externe Partner ein gemeinsames Bild entwickeln.";
+}
+
+function buildExpandedSections(post: BlogPost): BlogSection[] {
+  const topic = readableBlogTopic(post);
+  const primaryKeyword = primaryBlogKeyword(post);
+  const sourceTopics = sourceSectionSummary(post);
+
+  const expandedSections: BlogSection[] = [
+    {
+      title: "Warum das Thema im Hotelalltag wichtig ist",
+      body: [
+        `${topic} ist kein isoliertes Softwarethema, sondern ein Teil des täglichen Betriebs. Reservierungen, Zimmerstatus, Gästedaten, Aufgaben, Rechnungen und Kennzahlen hängen eng zusammen. Sobald eine Information an mehreren Orten gepflegt wird, entstehen Rückfragen, Verzögerungen und Fehler, die im Gastkontakt schnell sichtbar werden.`,
+        operationalFocus(post, topic),
+        `Genau deshalb sollte ${primaryKeyword} nicht nur nach einzelnen Funktionen beurteilt werden. Entscheidend ist, ob die Software wiederkehrende Abläufe so verbindet, dass Teams weniger suchen, weniger nachtragen und schneller entscheiden können.`
+      ]
+    },
+    {
+      title: "Typische Ausgangslage vor der Digitalisierung",
+      body: [
+        "Viele Hotels starten nicht bei null, sondern mit gewachsenen Abläufen. Ein Teil der Informationen liegt im bestehenden PMS, ein anderer Teil in Tabellen, E-Mails, Messenger-Nachrichten, Papierlisten oder im Kopf einzelner Mitarbeitender. Solange der Betrieb klein bleibt, kann das funktionieren; bei mehr Buchungen, mehr Kanälen oder mehr Teammitgliedern wird es schnell unübersichtlich.",
+        `${audienceNote(post)} Gerade dann wird sichtbar, ob Prozesse nur irgendwie funktionieren oder ob sie wirklich belastbar sind.`,
+        `Die vorhandenen Abschnitte dieses Beitrags zeigen bereits wichtige Bausteine wie ${sourceTopics}. Für einen vollständigen SEO-Ratgeber reicht es aber nicht, diese Punkte nur zu nennen. Hotels brauchen eine Einordnung, wie diese Themen im Tagesgeschäft zusammenspielen und welche Entscheidungen daraus entstehen.`
+      ]
+    },
+    {
+      title: "Anforderungen sauber definieren",
+      body: [
+        `Bevor ein Hotel ${primaryKeyword} auswählt oder bestehende Prozesse überarbeitet, sollte klar sein, welche Probleme tatsächlich gelöst werden sollen. Geht es um weniger manuelle Arbeit, bessere Übersicht, schnellere Übergaben, klare Verantwortlichkeiten, stärkere Direktbuchungen, bessere Reports oder eine einfachere Einführung neuer Mitarbeitender?`,
+        decisionFocus(post),
+        "Hilfreich ist eine kurze Ist-Aufnahme: Welche Aufgaben werden täglich erledigt, welche Informationen werden doppelt gepflegt, wo entstehen Wartezeiten, welche Daten fehlen bei Entscheidungen und welche Fragen landen immer wieder beim selben Teammitglied? Aus diesen Antworten entsteht ein belastbares Anforderungsprofil."
+      ]
+    },
+    {
+      title: "Praxis-Checkliste für Hotels",
+      body: [
+        `Prüfen Sie zuerst, ob ${topic} im konkreten Tagesablauf nachvollziehbar abgebildet werden kann. Eine gute Lösung sollte nicht nur in einer Präsentation stark wirken, sondern auch bei echten Vorgängen bestehen: neue Buchung, Änderung, Storno, Anreise, Zimmerwechsel, Zusatzleistung, Rechnung, Aufgabenübergabe und Auswertung.`,
+        "Prüfen Sie danach die Rollen im Team. Wer darf Daten sehen, wer darf sie ändern, wer braucht nur Leserechte und wer entscheidet über Einstellungen? Klare Rollen reduzieren Fehler und machen es einfacher, neue Mitarbeitende strukturiert einzuarbeiten.",
+        "Prüfen Sie außerdem Schnittstellen und Datenqualität. Ein PMS ist besonders wertvoll, wenn Informationen nicht an Systemgrenzen hängen bleiben. Zimmer, Preise, Verfügbarkeiten, Gästedaten, Rechnungen und Reports sollten logisch zusammenpassen.",
+        "Prüfen Sie zuletzt Support, Einführung und Skalierbarkeit. Hotels verändern sich: neue Zimmerkategorien, Zusatzbereiche, Buchungskanäle, Standorte oder Teamstrukturen kommen hinzu. Die Software sollte diese Entwicklung unterstützen, ohne dass der Betrieb bei jeder Änderung neu organisiert werden muss."
+      ]
+    },
+    {
+      title: "Umsetzung im Team",
+      body: [
+        `Die beste Software bringt wenig, wenn das Team nicht versteht, warum ${topic} verändert wird. Deshalb sollte die Einführung mit klaren Beispielen aus dem Hotelalltag beginnen. Mitarbeitende brauchen nicht nur eine Funktionsschulung, sondern eine Antwort auf die Frage, wie ihr eigener Arbeitstag einfacher wird.`,
+        "In der Praxis hilft ein schrittweises Vorgehen. Zuerst werden Kernprozesse stabil eingerichtet, danach folgen Automatisierungen, zusätzliche Auswertungen, optionale Integrationen oder weitere Abteilungen. So bleibt die Einführung kontrollierbar und das Team kann Vertrauen in die neuen Abläufe aufbauen.",
+        "Wichtig ist auch, Verantwortlichkeiten festzulegen. Wer pflegt Stammdaten, wer kontrolliert Reservierungen, wer prüft Rechnungen, wer betreut Schnittstellen und wer sammelt Feedback aus dem Team? Ohne diese Rollen entstehen dieselben Unklarheiten später wieder, nur in einer neuen Software."
+      ]
+    },
+    {
+      title: "Fehler, die Hotels vermeiden sollten",
+      body: [
+        riskFocus(post),
+        "Ein zweiter Fehler ist, die Einführung zu stark auf den Starttermin zu reduzieren. Entscheidend ist nicht nur, ob die Software live geht, sondern ob sie nach einigen Wochen wirklich sauber genutzt wird. Nachjustierung, Schulung, Datenpflege und Feedbackrunden gehören deshalb zum Projekt dazu.",
+        "Ein dritter Fehler ist eine zu ungenaue Datenbasis. Falsch angelegte Zimmer, uneinheitliche Gästedaten, unklare Kategorien oder lückenhafte Leistungen führen später zu falschen Reports und unnötigen Rückfragen. Gute Vorbereitung spart nach dem Start spürbar Zeit."
+      ]
+    },
+    {
+      title: "Kennzahlen und Erfolgskontrolle",
+      body: [
+        `Ob ${topic} wirklich hilft, lässt sich nicht nur am Bauchgefühl messen. Hotels sollten definieren, woran Erfolg erkennbar ist: weniger manuelle Nachträge, schnellere Check-ins, weniger Rückfragen, bessere Zimmerübersicht, vollständigere Gästedaten, klarere Rechnungen oder aussagekräftigere Reports.`,
+        "Auch qualitative Signale sind wichtig. Wenn neue Mitarbeitende schneller eingearbeitet werden, Übergaben ruhiger laufen oder Managementfragen ohne lange Suche beantwortet werden können, zeigt sich der Wert einer strukturierten Lösung im Alltag.",
+        "Für die langfristige Bewertung lohnt sich ein regelmäßiger Blick auf Prozesse und Daten. Ein PMS ist kein einmal abgeschlossenes Projekt, sondern ein Arbeitsmittel, das mit dem Betrieb wachsen sollte. Kleine Verbesserungen an Rollen, Vorlagen, Kategorien und Automatisierungen können dauerhaft viel Reibung herausnehmen."
+      ]
+    },
+    {
+      title: "Einordnung für PMSLogic",
+      body: [
+        `PMSLogic ordnet ${topic} als Teil einer zusammenhängenden Hotelverwaltung ein. Der Schwerpunkt liegt nicht darauf, möglichst viele Einzelfunktionen nebeneinanderzustellen, sondern Reservierungen, Gäste, Zimmer, Teamaufgaben, Abrechnung und Auswertungen in einem klaren System zu verbinden.`,
+        "Für Hotels bedeutet das: Die Software sollte den Betrieb nicht in zusätzliche Komplexität drücken, sondern Informationen so strukturieren, dass Entscheidungen leichter werden. Dazu gehören nachvollziehbare Abläufe, verständliche Oberflächen, sinnvolle Rollen und die Möglichkeit, digitale Prozesse Schritt für Schritt auszubauen.",
+        `Wer ${primaryKeyword} prüft, sollte deshalb nicht nur fragen, ob eine Funktion vorhanden ist. Wichtiger ist, ob die Funktion im echten Hotelalltag verständlich, zuverlässig und teamfähig ist. Genau dort entscheidet sich, ob aus Software ein praktischer Vorteil wird.`
+      ]
+    }
+  ];
+
+  return [...post.sections, ...expandedSections];
+}
+
+function buildExpandedFaq(post: BlogPost): FaqItem[] {
+  const topic = readableBlogTopic(post);
+  const primaryKeyword = primaryBlogKeyword(post);
+  const existingQuestions = new Set(
+    post.faq.map((item) => item.question.toLowerCase())
+  );
+
+  const candidates: FaqItem[] = [
+    {
+      question: `Wie bereitet ein Hotel ${topic} am besten vor?`,
+      answer:
+        "Am besten startet das Hotel mit einer kurzen Prozessaufnahme. Wichtig sind typische Tagesabläufe, beteiligte Rollen, vorhandene Datenquellen, wiederkehrende Fehler und konkrete Ziele. Daraus entsteht eine klare Grundlage für Auswahl, Demo, Einführung oder Optimierung."
+    },
+    {
+      question: `Welche Rolle spielt das PMS bei ${topic}?`,
+      answer: `Das PMS ist der zentrale Ort, an dem Reservierungen, Gäste, Zimmer, Aufgaben, Abrechnung und Reports zusammenlaufen. Bei ${primaryKeyword} sollte deshalb geprüft werden, ob die Software nicht nur eine Einzelaufgabe löst, sondern den Gesamtprozess im Hotel verständlicher macht.`
+    },
+    {
+      question: `Woran erkennt man eine gute Lösung für ${topic}?`,
+      answer:
+        "Eine gute Lösung ist im Alltag schnell verständlich, reduziert doppelte Datenpflege, schafft klare Verantwortlichkeiten und liefert verlässliche Informationen. Außerdem sollte sie zur Betriebsgröße passen und mit zukünftigen Anforderungen wachsen können."
+    },
+    {
+      question: `Wann lohnt sich eine Demo zu ${topic}?`,
+      answer:
+        "Eine Demo lohnt sich, sobald das Hotel konkrete Abläufe prüfen möchte. Besonders sinnvoll ist sie vor einem PMS-Wechsel, vor einer Digitalisierung einzelner Prozesse oder wenn das Team merkt, dass Tabellen, E-Mails und manuelle Listen zu viel Zeit kosten."
+    }
+  ];
+
+  return [
+    ...post.faq,
+    ...candidates.filter(
+      (item) => !existingQuestions.has(item.question.toLowerCase())
+    )
+  ];
+}
+
+function blogPostReadingTime(post: BlogPost) {
+  const textBlocks = [
+    post.title,
+    post.metaDescription,
+    post.excerpt,
+    post.intro,
+    ...post.sections.flatMap((section) => [section.title, ...section.body]),
+    ...post.faq.flatMap((item) => [item.question, item.answer])
+  ];
+  const wordCount = textBlocks
+    .join(" ")
+    .split(/\s+/)
+    .filter(Boolean).length;
+  const minutes = Math.max(12, Math.ceil(wordCount / 180));
+
+  return `${minutes} Minuten`;
+}
+
+function expandBlogPost(post: BlogPost): BlogPost {
+  const expandedPost = {
+    ...post,
+    sections: buildExpandedSections(post),
+    faq: buildExpandedFaq(post)
+  };
+
+  return {
+    ...expandedPost,
+    readingTime: blogPostReadingTime(expandedPost)
+  };
+}
+
+const rawBlogPosts: BlogPost[] = [
   {
     slug: "was-ist-ein-hotel-pms",
     title: "Was ist ein Hotel PMS?",
@@ -3405,6 +3709,8 @@ export const blogPosts: BlogPost[] = [
     ]
   }
 ];
+
+export const blogPosts: BlogPost[] = rawBlogPosts.map(expandBlogPost);
 
 export function absoluteUrl(path: string) {
   return `${siteConfig.url}${path === "/" ? "" : path}`;

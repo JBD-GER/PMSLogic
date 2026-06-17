@@ -1,6 +1,5 @@
 import { DemoForm } from "@/components/DemoForm";
 import { JsonLd } from "@/components/JsonLd";
-import { DemoRequestCard } from "@/components/Mockups";
 import {
   breadcrumbSchema,
   createMetadata,
@@ -52,9 +51,6 @@ export default function KontaktPage() {
               <li>Einordnung von Unterkunftskategorie, Bereichen und aktuellem System</li>
               <li>Auf Wunsch Vorbereitung einer vollständigen Demo</li>
             </ul>
-            <div className="section-tight">
-              <DemoRequestCard />
-            </div>
           </div>
           <DemoForm />
         </div>
