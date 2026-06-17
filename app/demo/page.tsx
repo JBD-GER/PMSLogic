@@ -1,6 +1,5 @@
 import { DemoForm } from "@/components/DemoForm";
 import { JsonLd } from "@/components/JsonLd";
-import { DemoRequestCard } from "@/components/Mockups";
 import { breadcrumbSchema, createMetadata, softwareSchema, webPageSchema } from "@/lib/content";
 
 export const metadata = createMetadata({
@@ -47,9 +46,6 @@ export default function DemoPage() {
               <li>Keine Preise, kein Sofortkauf, keine aggressive Verkaufslogik</li>
               <li>Persönliche Rückmeldung durch unser Team</li>
             </ul>
-            <div className="section-tight">
-              <DemoRequestCard />
-            </div>
           </div>
           <DemoForm />
         </div>
