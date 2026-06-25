@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TrackedLink } from "./TrackedLink";
 
 export function CTASection({
   eyebrow = "Kostenlose Demo",
@@ -22,12 +22,32 @@ export function CTASection({
           <p>{text}</p>
         </div>
         <div className="cta-actions">
-          <Link href="/demo" className="btn btn-primary">
+          <TrackedLink
+            href="/demo"
+            className="btn btn-primary"
+            eventName="Demo CTA Clicked"
+            eventProperties={{
+              placement: "cta_section_primary",
+              section_title: title,
+              cta_label: "Kostenlose Demo anfragen"
+            }}
+          >
             Kostenlose Demo anfragen
-          </Link>
-          <Link href={secondaryHref} className="btn btn-secondary">
+          </TrackedLink>
+          <TrackedLink
+            href={secondaryHref}
+            className="btn btn-secondary"
+            eventName={
+              secondaryHref === "/demo" ? "Demo CTA Clicked" : "Secondary CTA Clicked"
+            }
+            eventProperties={{
+              placement: "cta_section_secondary",
+              section_title: title,
+              cta_label: secondaryLabel
+            }}
+          >
             {secondaryLabel}
-          </Link>
+          </TrackedLink>
         </div>
       </div>
     </section>

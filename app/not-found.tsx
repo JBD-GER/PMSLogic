@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TrackedLink } from "@/components/TrackedLink";
 
 export default function NotFound() {
   return (
@@ -15,9 +16,17 @@ export default function NotFound() {
           <Link href="/" className="btn btn-primary">
             Zur Startseite
           </Link>
-          <Link href="/demo" className="btn btn-secondary">
+          <TrackedLink
+            href="/demo"
+            className="btn btn-secondary"
+            eventName="Demo CTA Clicked"
+            eventProperties={{
+              placement: "not_found",
+              cta_label: "Demo anfragen"
+            }}
+          >
             Demo anfragen
-          </Link>
+          </TrackedLink>
         </div>
       </div>
     </section>

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { mainNavLinks } from "@/lib/navigation";
 import { Logo } from "./Logo";
+import { TrackedLink } from "./TrackedLink";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,9 +39,17 @@ export function Header() {
           ))}
         </nav>
         <div className="header-actions">
-          <Link href="/demo" className="btn btn-primary btn-small">
+          <TrackedLink
+            href="/demo"
+            className="btn btn-primary btn-small"
+            eventName="Demo CTA Clicked"
+            eventProperties={{
+              placement: "header_desktop",
+              cta_label: "Kostenlose Demo anfragen"
+            }}
+          >
             Kostenlose Demo anfragen
-          </Link>
+          </TrackedLink>
           <button
             className="icon-button mobile-menu-button"
             type="button"
@@ -67,9 +76,17 @@ export function Header() {
             ))}
           </div>
           <div className="mobile-nav-actions">
-            <Link href="/demo" className="btn btn-primary">
+            <TrackedLink
+              href="/demo"
+              className="btn btn-primary"
+              eventName="Demo CTA Clicked"
+              eventProperties={{
+                placement: "header_mobile",
+                cta_label: "Demo mit PMSLogic starten"
+              }}
+            >
               Demo mit PMSLogic starten
-            </Link>
+            </TrackedLink>
           </div>
         </nav>
       ) : null}

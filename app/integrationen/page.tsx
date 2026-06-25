@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { CTASection } from "@/components/CTASection";
 import { JsonLd } from "@/components/JsonLd";
 import { DashboardMockup } from "@/components/Mockups";
 import { PageHero } from "@/components/PageHero";
+import { TrackedLink } from "@/components/TrackedLink";
 import {
   breadcrumbSchema,
   createMetadata,
@@ -80,9 +80,17 @@ export default function IntegrationenPage() {
                 Hotelsoftware und Hotel PMS Systeme.
               </p>
             </div>
-            <Link href="/demo" className="btn btn-primary">
+            <TrackedLink
+              href="/demo"
+              className="btn btn-primary"
+              eventName="Demo CTA Clicked"
+              eventProperties={{
+                placement: "integrations_section_head",
+                cta_label: "Schnittstellen in Demo prüfen"
+              }}
+            >
               Schnittstellen in Demo prüfen
-            </Link>
+            </TrackedLink>
           </div>
           <div className="integration-grid">
             {integrations.map((item) => (

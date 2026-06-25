@@ -31,6 +31,7 @@ import {
   softwareSchema,
   webPageSchema
 } from "@/lib/content";
+import { TrackedLink } from "@/components/TrackedLink";
 
 export const metadata = createMetadata({
   title: "PMSLogic Hotelsoftware | Modernes Hotel PMS für digitale Hotelverwaltung",
@@ -146,9 +147,17 @@ export default function HomePage() {
               und bereit für die digitale Hotellerie.
             </p>
             <div className="hero-actions">
-              <Link href="/demo" className="btn btn-primary">
+              <TrackedLink
+                href="/demo"
+                className="btn btn-primary"
+                eventName="Demo CTA Clicked"
+                eventProperties={{
+                  placement: "home_hero_primary",
+                  cta_label: "Kostenlose Demo anfragen"
+                }}
+              >
                 Kostenlose Demo anfragen
-              </Link>
+              </TrackedLink>
               <Link href="/funktionen" className="btn btn-secondary">
                 Funktionen ansehen
               </Link>
@@ -204,9 +213,17 @@ export default function HomePage() {
                 Housekeeping, Rechnungen, Kommunikation und Auswertung.
               </p>
             </div>
-            <Link href="/demo" className="btn btn-secondary">
+            <TrackedLink
+              href="/demo"
+              className="btn btn-secondary"
+              eventName="Demo CTA Clicked"
+              eventProperties={{
+                placement: "home_benefits",
+                cta_label: "Hotelsoftware live erleben"
+              }}
+            >
               Hotelsoftware live erleben
-            </Link>
+            </TrackedLink>
           </div>
           <CompactFeatureGrid items={benefits} />
         </div>
@@ -316,9 +333,17 @@ export default function HomePage() {
               <Link href="/funktionen#pmsai" className="btn btn-primary">
                 PMSAI unter Funktionen ansehen
               </Link>
-              <Link href="/demo" className="btn btn-secondary">
+              <TrackedLink
+                href="/demo"
+                className="btn btn-secondary"
+                eventName="Demo CTA Clicked"
+                eventProperties={{
+                  placement: "home_pmsai_section",
+                  cta_label: "Demo mit PMSLogic starten"
+                }}
+              >
                 Demo mit PMSLogic starten
-              </Link>
+              </TrackedLink>
             </div>
           </div>
           <AIAssistantMockup />

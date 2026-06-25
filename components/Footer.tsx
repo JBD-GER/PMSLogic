@@ -6,6 +6,7 @@ import {
   siteConfig
 } from "@/lib/content";
 import { Logo } from "./Logo";
+import { TrackedLink } from "./TrackedLink";
 
 const productLinks = [
   { label: "Startseite", href: "/" },
@@ -64,9 +65,17 @@ export function Footer() {
               zurück und zeigen, wie PMSLogic zu Ihrem Haus passt.
             </p>
           </div>
-          <Link href="/demo" className="btn btn-primary">
+          <TrackedLink
+            href="/demo"
+            className="btn btn-primary"
+            eventName="Demo CTA Clicked"
+            eventProperties={{
+              placement: "footer_cta",
+              cta_label: "Kostenlose Demo anfragen"
+            }}
+          >
             Kostenlose Demo anfragen
-          </Link>
+          </TrackedLink>
         </div>
 
         <div className="footer-main">
@@ -78,9 +87,16 @@ export function Footer() {
               <span>Hotelsoftware</span>
               <span>Demo</span>
             </div>
-            <Link href={`mailto:${siteConfig.email}`} className="footer-contact">
+            <TrackedLink
+              href={`mailto:${siteConfig.email}`}
+              className="footer-contact"
+              eventName="Email Link Clicked"
+              eventProperties={{
+                placement: "footer_brand"
+              }}
+            >
               {siteConfig.email}
-            </Link>
+            </TrackedLink>
           </div>
 
           <nav className="footer-grid" aria-label="Footer Navigation">
@@ -123,9 +139,17 @@ export function Footer() {
                   </li>
                 ))}
               </ul>
-              <Link href="/demo" className="footer-text-cta">
+              <TrackedLink
+                href="/demo"
+                className="footer-text-cta"
+                eventName="Demo CTA Clicked"
+                eventProperties={{
+                  placement: "footer_text_cta",
+                  cta_label: "Hotelsoftware Demo anfragen"
+                }}
+              >
                 Hotelsoftware Demo anfragen
-              </Link>
+              </TrackedLink>
             </div>
           </nav>
         </div>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
+import { PageEventTracker } from "@/components/PageEventTracker";
 import { breadcrumbSchema, createMetadata } from "@/lib/content";
 
 export const metadata = createMetadata({
@@ -14,6 +15,10 @@ export const metadata = createMetadata({
 export default function DankePage() {
   return (
     <>
+      <PageEventTracker
+        eventName="Demo Thank You Viewed"
+        eventProperties={{ conversion: true }}
+      />
       <JsonLd
         id="thanks-breadcrumb-jsonld"
         data={breadcrumbSchema([

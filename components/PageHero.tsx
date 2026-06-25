@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import Link from "next/link";
+import { TrackedLink } from "./TrackedLink";
 
 export function PageHero({
   eyebrow,
@@ -26,13 +26,35 @@ export function PageHero({
           <h1>{title}</h1>
           <p className="lead">{text}</p>
           <div className="hero-actions">
-            <Link href="/demo" className="btn btn-primary">
+            <TrackedLink
+              href="/demo"
+              className="btn btn-primary"
+              eventName="Demo CTA Clicked"
+              eventProperties={{
+                placement: "page_hero_primary",
+                page_title: title,
+                cta_label: primaryLabel
+              }}
+            >
               {primaryLabel}
-            </Link>
+            </TrackedLink>
             {secondaryLabel && secondaryHref ? (
-              <Link href={secondaryHref} className="btn btn-secondary">
+              <TrackedLink
+                href={secondaryHref}
+                className="btn btn-secondary"
+                eventName={
+                  secondaryHref === "/demo"
+                    ? "Demo CTA Clicked"
+                    : "Secondary CTA Clicked"
+                }
+                eventProperties={{
+                  placement: "page_hero_secondary",
+                  page_title: title,
+                  cta_label: secondaryLabel
+                }}
+              >
                 {secondaryLabel}
-              </Link>
+              </TrackedLink>
             ) : null}
           </div>
         </div>
